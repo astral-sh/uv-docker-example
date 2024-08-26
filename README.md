@@ -54,7 +54,7 @@ mounts during container runs.
 
 ### Run script
 
-The [run script](./run.sh) includes an example of invoking `docker run` for local development,
+The [`run.sh`](./run.sh) script includes an example of invoking `docker run` for local development,
 mounting the source code for the project into the container so that edits are reflected immediately.
 
 ### Application code
