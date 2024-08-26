@@ -55,4 +55,4 @@ jobs:
           docker image ls -a
 
       - name: Test image
-        run: ./run.sh hello
+        run: ./run.sh

@@ -18,3 +18,6 @@ RUN uv sync --frozen
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
+
+# Set the default command to the application
+CMD ["hello"]
