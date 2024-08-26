@@ -12,9 +12,16 @@
 #   -it $(docker build -q .)    Build the image, then use it as a run target
 #   $@                          Pass any arguments to the container
 
+if [ -t 1 ]; then
+    INTERACTIVE="-it"
+else
+    INTERACTIVE=""
+fi
+
 docker run \
     --rm \
     --volume .:/app \
     --volume /app/.venv \
-    -it $(docker build -q .) \
-    $@
+    $INTERACTIVE \
+    $(docker build -q .) \
+    "$@"

@@ -1,2 +1,2 @@
 def hello() -> str:
-    return "Hello from uv-docker-example!"
+    print("Hello from uv-docker-example!")
