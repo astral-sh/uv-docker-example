@@ -11,19 +11,27 @@ A [`run.sh`](./run.sh) utility is provided for quickly building the image and st
 This script demonstrates best practices for developing using the container, using bind mounts for
 the project and virtual environment directories.
 
-To run the application in the container:
+To build and run the web application in the container using `docker run`:
 
 ```console
 $ ./run.sh
 ```
 
-To run the application in the container, checking if the environment is up-to-date first:
+Then, check out [`http://localhost:8000`](http://localhost:8000) to see the website.
 
-```console
-$ ./run.sh uv run hello
+To build and run the web application using Docker compose:
+
+```
+docker compose up --watch 
 ```
 
-To check that the environment is up-to-date:
+To run the command-line entrypoint in the container:
+
+```console
+$ ./run.sh hello
+```
+
+To check that the environment is up-to-date after image builds:
 
 ```console
 $ ./run.sh uv sync --frozen
@@ -63,13 +71,20 @@ mounts during container runs.
 The [`run.sh`](./run.sh) script includes an example of invoking `docker run` for local development,
 mounting the source code for the project into the container so that edits are reflected immediately.
 
+### Docker compose file
+
+The [compose.yml](./compose.yml) file includes a Docker compose definition for the web application.
+It includes a [`watch`
+directive](https://docs.docker.com/compose/file-watch/#compose-watch-versus-bind-mounts) for Docker
+compose, which is a best-practice method for updating the container on local changes.
+
 ### Application code
 
 The Python application code for the project is at
-[`src/uv_docker_example/__init__.py`](./src/uv_docker_example/__init__.py) — it just prints hello
-world.
+[`src/uv_docker_example/__init__.py`](./src/uv_docker_example/__init__.py) — there's a command line
+entrypoint and a basic FastAPI application — both of which just display "hello world" output.
 
 ### Project definition
 
-The project at [`pyproject.toml`](./pyproject.toml) includes includes Ruff as an example development
-dependency and defines a `hello` entrypoint for the application.
+The project at [`pyproject.toml`](./pyproject.toml) includes Ruff as an example development
+dependency, includes FastAPI as a dependency, and defines a `hello` entrypoint for the application.

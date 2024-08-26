@@ -1,2 +1,12 @@
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
 def hello() -> str:
-    print("Hello from uv-docker-example!")
+    print("Hello world")
+
+
+@app.get("/")
+async def root():
+    return "Hello world"

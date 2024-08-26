@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "fastapi>=0.112.2",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -16,4 +18,5 @@ hello = "uv_docker_example:hello"
 [tool.uv]
 dev-dependencies = [
     "ruff>=0.6.2",
+    "fastapi-cli>=0.0.5",
 ]
