@@ -11,22 +11,16 @@ A [`run.sh`](./run.sh) utility is provided for quickly building the image and st
 This script demonstrates best practices for developing using the container, using bind mounts for
 the project and virtual environment directories.
 
-To run the application in a container:
-
-```console
-$ ./run.sh hello
-```
-
-To enter a Python REPL in a container:
+To run the application in the container:
 
 ```console
 $ ./run.sh
 ```
 
-To enter a `bash` shell in a container:
+To run the application in the container, checking if the environment is up-to-date first:
 
 ```console
-$ ./run.sh /bin/bash
+$ ./run.sh uv run hello
 ```
 
 To check that the environment is up-to-date:
@@ -34,6 +28,18 @@ To check that the environment is up-to-date:
 ```console
 $ ./run.sh uv sync --frozen
 Audited 2 packages ...
+```
+
+To enter a `bash` shell in the container:
+
+```console
+$ ./run.sh /bin/bash
+```
+
+To build the image without running anything:
+
+```console
+$ docker build .
 ```
 
 ## Project overview
