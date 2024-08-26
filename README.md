@@ -6,7 +6,10 @@ See the [uv Docker integration guide](https://docs.astral.sh/uv/guides/integrati
 
 ## Running the image
 
-A `run.sh` convenience is provided for quickly building the image and starting a container.
+A [`run.sh`](./run.sh) utility is provided for quickly building the image and starting a container.
+
+This script demonstrates best practices for developing using the container, using bind mounts for
+the project and virtual environment directories.
 
 To run the application in an image:
 
