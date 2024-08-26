@@ -11,22 +11,29 @@ A [`run.sh`](./run.sh) utility is provided for quickly building the image and st
 This script demonstrates best practices for developing using the container, using bind mounts for
 the project and virtual environment directories.
 
-To run the application in an image:
+To run the application in a container:
 
-```
-./run.sh hello
-```
-
-To enter a Python REPL in the image:
-
-```
-./run.sh
+```console
+$ ./run.sh hello
 ```
 
-To enter a `bash` shell in the image:
+To enter a Python REPL in a container:
 
+```console
+$ ./run.sh
 ```
-./run.sh /bin/bash
+
+To enter a `bash` shell in a container:
+
+```console
+$ ./run.sh /bin/bash
+```
+
+To check that the environment is up-to-date:
+
+```console
+$ ./run.sh uv sync --frozen
+Audited 2 packages ...
 ```
 
 ## Project overview
@@ -39,7 +46,7 @@ The [`Dockerfile`](./Dockerfile) defines the image and includes:
 - Installing the project dependencies and the project separately for optimal image build caching
 - Placing environment executables on the `PATH`
 
-### Docker ignore file
+### Dockerignore file
 
 The [`.dockerignore`](./.dockerignore) file includes an entry for the `.venv` directory to ensure the
 `.venv` is not included in image builds. Note that the `.dockerignore` file is not applied to volume
