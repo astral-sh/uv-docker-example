@@ -10,11 +10,13 @@ ADD .dockerignore .
 WORKDIR /app
 ADD uv.lock /app/uv.lock
 ADD pyproject.toml /app/pyproject.toml
-RUN uv sync --frozen --no-install-project
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project
 
 # Then, install the rest of the project
 ADD . /app
-RUN uv sync --frozen
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
