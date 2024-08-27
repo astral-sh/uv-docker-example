@@ -3,7 +3,7 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-def hello() -> str:
+def hello():
     print("Hello world")
 
 
