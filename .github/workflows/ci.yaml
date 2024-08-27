@@ -54,5 +54,10 @@ jobs:
           docker load --input /tmp/uv-docker-example.tar
           docker image ls -a
 
-      - name: Test image
-        run: ./run.sh
+      - name: Test command line
+        run: ./run.sh hello
+
+      - name: Test Docker compose
+        run: |
+          docker compose up --watch -d
+          docker compose down
