@@ -1,22 +1,25 @@
-FROM python:3.12-slim-bookworm
+# Use a Python image with uv pre-installed
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:0.3.3 /uv /bin/uv
-
-# First, install the dependencies
+# Install the project into `/app`
 WORKDIR /app
-ADD uv.lock /app/uv.lock
-ADD pyproject.toml /app/pyproject.toml
+
+# Install the project's dependencies using the lockfile and settings
 RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --frozen --no-install-project
 
-# Then, install the rest of the project
+# Then, add the rest of the project source code and install it
 ADD . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
+
+# Reset the entrypoint, don't invoke `uv`
+ENTRYPOINT []
 
 # Run the FastAPI application by default
 # Uses `fastapi dev` to enable hot-reloading when the `watch` sync occurs
