@@ -14,12 +14,12 @@ ENV UV_LINK_MODE=copy
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project
+    uv sync --frozen --no-install-project --no-dev
 
 # Then, add the rest of the project source code and install it
 ADD . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen
+    uv sync --frozen --no-dev
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
