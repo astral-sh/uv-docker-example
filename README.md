@@ -53,6 +53,10 @@ The [`Dockerfile`](./Dockerfile) defines the image and includes:
 The [`multistage.Dockerfile`](./multistage.Dockerfile) example extends the `Dockerfile` example to
 use multistage builds to reduce the final size of the image.
 
+The [`standalone.Dockerfile`](./standalone.Dockerfile) example extends the `multistage.Dockerfile`
+example to use a managed Python interpreter in a multistage build instead of the system interpreter
+that comes with the base image.
+
 ### Dockerignore file
 
 The [`.dockerignore`](./.dockerignore) file includes an entry for the `.venv` directory to ensure the
