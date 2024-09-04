@@ -30,11 +30,26 @@ jobs:
           cache-to: type=gha,mode=min,scope=uv-docker-example
           outputs: type=docker,dest=/tmp/uv-docker-example.tar
 
+      - name: Build and export (multistage)
+        uses: docker/build-push-action@v6
+        with:
+          file: Dockerfile.multistage
+          tags: uv-docker-example-multistage:latest
+          cache-from: type=gha,scope=uv-docker-example-multistage
+          cache-to: type=gha,mode=min,scope=uv-docker-example-multistage
+          outputs: type=docker,dest=/tmp/uv-docker-example-multistage.tar
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: uv-docker-example
           path: /tmp/uv-docker-example.tar
+
+      - name: Upload artifact (multistage)
+        uses: actions/upload-artifact@v4
+        with:
+          name: uv-docker-example-multistage
+          path: /tmp/uv-docker-example-multistage.tar
 
   test:
     name: "test image"
@@ -49,9 +64,16 @@ jobs:
           name: uv-docker-example
           path: /tmp
 
-      - name: Load image
+      - name: Download artifact (multistage)
+        uses: actions/download-artifact@v4
+        with:
+          name: uv-docker-example-multistage
+          path: /tmp
+
+      - name: Load images
         run: |
           docker load --input /tmp/uv-docker-example.tar
+          docker load --input /tmp/uv-docker-example-multistage.tar
           docker image ls -a
 
       - name: Test command line
@@ -61,3 +83,6 @@ jobs:
         run: |
           docker compose up --watch -d
           docker compose down
+
+      - name: Test command line (multistage)
+        run: docker run uv-docker-example-multistage:latest hello
