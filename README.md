@@ -50,6 +50,9 @@ The [`Dockerfile`](./Dockerfile) defines the image and includes:
 - Placing environment executables on the `PATH`
 - Running the web application
 
+The [`Dockerfile.multistage`](./Dockerfile.multistage) example extends the `Dockerfile` example to
+use multistage builds to reduce the final size of the image.
+
 ### Dockerignore file
 
 The [`.dockerignore`](./.dockerignore) file includes an entry for the `.venv` directory to ensure the
@@ -98,4 +101,10 @@ To build the image without running anything:
 
 ```console
 $ docker build .
+```
+
+To build the multistage image:
+
+```console
+$ docker build . --file Dockerfile.multistage
 ```
