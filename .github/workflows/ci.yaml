@@ -33,7 +33,7 @@ jobs:
       - name: Build and export (multistage)
         uses: docker/build-push-action@v6
         with:
-          file: Dockerfile.multistage
+          file: multistage.Dockerfile
           tags: uv-docker-example-multistage:latest
           cache-from: type=gha,scope=uv-docker-example-multistage
           cache-to: type=gha,mode=min,scope=uv-docker-example-multistage
