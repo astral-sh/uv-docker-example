@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "fastapi>=0.112.2",
+    "fastapi[standard]>=0.112.2",
 ]
 
 [build-system]
