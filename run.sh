@@ -13,15 +13,16 @@
 #   -it $(docker build -q .)    Build the image, then use it as a run target
 #   $@                          Pass any arguments to the container
 
+script_path=$(dirname "$(realpath "$0")")
+
 if [ -t 1 ]; then
     INTERACTIVE="-it"
 else
     INTERACTIVE=""
 fi
-
 docker run \
     --rm \
-    --volume .:/app \
+    --volume "${script_path}":/app \
     --volume /app/.venv \
     --publish 8000:8000 \
     $INTERACTIVE \
