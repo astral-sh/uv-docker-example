@@ -20,6 +20,6 @@ services:
           ignore:
             - .venv/
 
-        # Rebuild the image on changes to the `pyproject.toml`
+        # Rebuild the image if dependencies change by checking uv.lock
         - action: rebuild
-          path: ./pyproject.toml
+          path: ./uv.lock
