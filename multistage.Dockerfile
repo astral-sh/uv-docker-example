@@ -20,8 +20,14 @@ FROM python:3.12-slim-bookworm
 # Python executable must be the same, e.g., using `python:3.11-slim-bookworm`
 # will fail.
 
+# Create user and group 'app'
+RUN groupadd -r app && useradd -r -g app app
+
 # Copy the application from the builder
 COPY --from=builder --chown=app:app /app /app
+
+# app should run as user app, not root for better security
+USER app
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
