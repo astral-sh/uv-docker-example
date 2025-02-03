@@ -39,6 +39,15 @@ jobs:
           cache-to: type=gha,mode=min,scope=uv-docker-example-multistage
           outputs: type=docker,dest=/tmp/uv-docker-example-multistage.tar
 
+      - name: Build and export (standalone)
+        uses: docker/build-push-action@v6
+        with:
+          file: standalone.Dockerfile
+          tags: uv-docker-example-standalone:latest
+          cache-from: type=gha,scope=uv-docker-example-standalone
+          cache-to: type=gha,mode=min,scope=uv-docker-example-standalone
+          outputs: type=docker,dest=/tmp/uv-docker-example-standalone.tar
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -50,6 +59,12 @@ jobs:
         with:
           name: uv-docker-example-multistage
           path: /tmp/uv-docker-example-multistage.tar
+
+      - name: Upload artifact (standalone)
+        uses: actions/upload-artifact@v4
+        with:
+          name: uv-docker-example-standalone
+          path: /tmp/uv-docker-example-standalone.tar
 
   test:
     name: "test image"
@@ -70,10 +85,17 @@ jobs:
           name: uv-docker-example-multistage
           path: /tmp
 
+      - name: Download artifact (standalone)
+        uses: actions/download-artifact@v4
+        with:
+          name: uv-docker-example-standalone
+          path: /tmp
+  
       - name: Load images
         run: |
           docker load --input /tmp/uv-docker-example.tar
           docker load --input /tmp/uv-docker-example-multistage.tar
+          docker load --input /tmp/uv-docker-example-standalone.tar
           docker image ls -a
 
       - name: Test command line
@@ -86,3 +108,6 @@ jobs:
 
       - name: Test command line (multistage)
         run: docker run uv-docker-example-multistage:latest hello
+
+      - name: Test command line (standalone)
+        run: docker run uv-docker-example-standalone:latest hello

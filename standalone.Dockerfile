@@ -1,15 +1,17 @@
-# An example using multi-stage image builds to create a final image without uv.
+# An example of using standalone Python builds with multistage images.
 
-# First, build the application in the `/app` directory.
-# See `Dockerfile` for details.
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+# First, build the application in the `/app` directory
+FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
-# Disable Python downloads, because we want to use the system interpreter
-# across both images. If using a managed Python version, it needs to be
-# copied from the build image into the final image; see `standalone.Dockerfile`
-# for an example.
-ENV UV_PYTHON_DOWNLOADS=0
+# Configure the Python directory so it is consistent
+ENV UV_PYTHON_INSTALL_DIR /python
+
+# Only use the managed Python version
+ENV UV_PYTHON_PREFERENCE=only-managed
+
+# Install Python before the project for caching
+RUN uv python install 3.12
 
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -20,12 +22,11 @@ ADD . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-
 # Then, use a final image without uv
-FROM python:3.12-slim-bookworm
-# It is important to use the image that matches the builder, as the path to the
-# Python executable must be the same, e.g., using `python:3.11-slim-bookworm`
-# will fail.
+FROM debian:bookworm-slim
+
+# Copy the Python version
+COPY --from=builder --chown=python:python /python /python
 
 # Copy the application from the builder
 COPY --from=builder --chown=app:app /app /app
