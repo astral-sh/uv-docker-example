@@ -8,7 +8,7 @@ services:
       - "8000:8000"
 
     develop:
-      # Create a `watch` configuration to update the appl
+      # Create a `watch` configuration to update the app
       # https://docs.docker.com/compose/file-watch/#compose-watch-versus-bind-mounts
       watch:
         # Sync the working directory with the `/app` directory in the container
