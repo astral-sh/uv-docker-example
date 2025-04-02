@@ -5,7 +5,7 @@ FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 # Configure the Python directory so it is consistent
-ENV UV_PYTHON_INSTALL_DIR /python
+ENV UV_PYTHON_INSTALL_DIR=/python
 
 # Only use the managed Python version
 ENV UV_PYTHON_PREFERENCE=only-managed
