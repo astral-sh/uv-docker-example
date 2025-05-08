@@ -91,7 +91,7 @@ dependency, includes FastAPI as a dependency, and defines a `hello` entrypoint f
 To check that the environment is up-to-date after image builds:
 
 ```console
-$ ./run.sh uv sync --frozen
+$ ./run.sh uv sync --locked
 Audited 2 packages ...
 ```
 
