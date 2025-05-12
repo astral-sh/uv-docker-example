@@ -103,7 +103,7 @@ jobs:
 
       - name: Test Docker compose
         run: |
-          docker compose up --watch -d
+          docker compose up -d
           docker compose down
 
       - name: Test command line (multistage)
