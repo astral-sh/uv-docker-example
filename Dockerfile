@@ -25,6 +25,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 
+# Setup an app user so the container doesn't run as the root user
+RUN useradd app
+USER app
+
 # Reset the entrypoint, don't invoke `uv`
 ENTRYPOINT []
 
