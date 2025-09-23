@@ -48,14 +48,15 @@ The [`Dockerfile`](./Dockerfile) defines the image and includes:
 - Installation of uv
 - Installing the project dependencies and the project separately for optimal image build caching
 - Placing environment executables on the `PATH`
-- Running the web application
+- Running the web application in development mode
 
 The [`multistage.Dockerfile`](./multistage.Dockerfile) example extends the `Dockerfile` example to
-use multistage builds to reduce the final size of the image.
+use multistage builds to reduce the final size of the image. This image runs the application in
+production mode.
 
 The [`standalone.Dockerfile`](./standalone.Dockerfile) example extends the `multistage.Dockerfile`
 example to use a managed Python interpreter in a multistage build instead of the system interpreter
-that comes with the base image.
+that comes with the base image. This image runs the application in production mode.
 
 ### Dockerignore file
 
