@@ -28,8 +28,8 @@ FROM python:3.12-slim-bookworm
 # will fail.
 
 # Setup a non-root user
-RUN addgroup --gid 10001 --system nonroot \
- && adduser  --uid 10000 --system --ingroup nonroot --home /home/nonroot nonroot
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --gid 999 --uid 999 --create-home nonroot
 
 # Copy the application from the builder
 COPY --from=builder --chown=nonroot:nonroot /app /app

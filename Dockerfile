@@ -2,8 +2,8 @@
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 # Setup a non-root user
-RUN addgroup --gid 10001 --system nonroot \
- && adduser  --uid 10000 --system --ingroup nonroot --home /home/nonroot nonroot
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --gid 999 --uid 999 --create-home nonroot
 
 # Install the project into `/app`
 WORKDIR /app
