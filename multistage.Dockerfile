@@ -27,11 +27,18 @@ FROM python:3.12-slim-bookworm
 # Python executable must be the same, e.g., using `python:3.11-slim-bookworm`
 # will fail.
 
+# Setup a non-root user
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --gid 999 --uid 999 --create-home nonroot
+
 # Copy the application from the builder
-COPY --from=builder --chown=app:app /app /app
+COPY --from=builder --chown=nonroot:nonroot /app /app
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 
+# Use the non-root user to run our application
+USER nonroot
+
 # Run the FastAPI application by default
-CMD ["fastapi", "dev", "--host", "0.0.0.0", "/app/src/uv_docker_example"]
+CMD ["fastapi", "run", "--host", "0.0.0.0", "/app/src/uv_docker_example"]
