@@ -40,5 +40,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Use the non-root user to run our application
 USER nonroot
 
+# Use `/app` as the working directory
+WORKDIR /app
+
 # Run the FastAPI application by default
-CMD ["fastapi", "run", "--host", "0.0.0.0", "/app/src/uv_docker_example"]
+CMD ["fastapi", "run", "--host", "0.0.0.0", "src/uv_docker_example"]
