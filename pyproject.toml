@@ -15,8 +15,8 @@ build-backend = "hatchling.build"
 [project.scripts]
 hello = "uv_docker_example:hello"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "ruff>=0.6.2",
     "fastapi-cli>=0.0.5",
 ]
