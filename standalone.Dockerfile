@@ -4,6 +4,9 @@
 FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
+# Omit development dependencies
+ENV UV_NO_DEV=1
+
 # Configure the Python directory so it is consistent
 ENV UV_PYTHON_INSTALL_DIR=/python
 
@@ -17,10 +20,10 @@ WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --locked --no-install-project --no-dev
+    uv sync --locked --no-install-project
 COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-dev
+    uv sync --locked
 
 # Then, use a final image without uv
 FROM debian:bookworm-slim
