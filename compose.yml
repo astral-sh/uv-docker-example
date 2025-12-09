@@ -7,6 +7,10 @@ services:
     ports:
       - "8000:8000"
 
+    # Include development dependencies when working locally
+    environment:
+      - UV_NO_DEV=0
+
     develop:
       # Create a `watch` configuration to update the app
       # https://docs.docker.com/compose/file-watch/#compose-watch-versus-bind-mounts
