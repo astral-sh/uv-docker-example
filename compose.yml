@@ -1,15 +1,15 @@
 services:
   web:
-    # Build the image from the Dockerfile in the current directory
-    build: .
+    build:
+      # Build the image from the Dockerfile in the current directory
+      context: .
+      args:
+        # Include development dependencies when working locally
+        UV_NO_DEV: 0
 
     # Host the FastAPI application on port 8000
     ports:
       - "8000:8000"
-
-    # Include development dependencies when working locally
-    environment:
-      - UV_NO_DEV=0
 
     develop:
       # Create a `watch` configuration to update the app
