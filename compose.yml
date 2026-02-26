@@ -7,9 +7,13 @@ services:
     ports:
       - "8000:8000"
 
-    # Include development dependencies when working locally
     environment:
+      # Include development dependencies when working locally
       - UV_NO_DEV=0
+
+    # Run as root during development so the environment is mutable
+    # Alternatively, you could set `UV_PROJECT_ENVIRONMENT` to a path owned by the non-root user
+    user: root
 
     develop:
       # Create a `watch` configuration to update the app
