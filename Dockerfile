@@ -12,10 +12,10 @@ WORKDIR /app
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
-# Enable bytecode compilation
+# Enable bytecode compilation for better start-up performance at the cost of longer build time
 ENV UV_COMPILE_BYTECODE=1
 
-# Copy from the cache instead of linking since it's a mounted volume
+# Copy from the cache instead of hard linking due to the below cache mount
 ENV UV_LINK_MODE=copy
 
 # Omit development dependencies
