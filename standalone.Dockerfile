@@ -29,8 +29,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 FROM debian:bookworm-slim
 
 # Setup a non-root user
-RUN groupadd --system --gid 999 nonroot \
- && useradd --system --gid 999 --uid 999 --create-home nonroot
+RUN groupadd --system --gid 9999 nonroot \
+ && useradd --system --gid 9999 --uid 9999 --create-home nonroot
 
 # Copy the Python version
 COPY --from=builder /python /python
