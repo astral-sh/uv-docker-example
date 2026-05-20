@@ -1,8 +1,13 @@
 # An example using multi-stage image builds to create a final image without uv.
 
+# Note: spec `major.minor` versions ONLY for uv Python images.
+ARG PYTHON_VERSION=3.12
+ARG DEBIAN_CODENAME=bookworm
+ARG VARIANT=slim
+
 # First, build the application in the `/app` directory.
 # See `Dockerfile` for details.
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:python${PYTHON_VERSION}-${DEBIAN_CODENAME}-${VARIANT} AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 # Omit development dependencies
@@ -25,10 +30,15 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 
 # Then, use a final image without uv
-FROM python:3.12-slim-bookworm
-# It is important to use the image that matches the builder, as the path to the
-# Python executable must be the same, e.g., using `python:3.11-slim-bookworm`
-# will fail.
+FROM python:${PYTHON_VERSION}-${VARIANT}-${DEBIAN_CODENAME}
+# [Important] The image tag format differs between the official Python image and
+# uv-provided images.
+#
+# Official Python image  →  python:<major>.<minor>.<patch>-<variant>-<codename>
+# uv Python image        →  python<major>.<minor>-<codename>-<variant>
+#
+# Do NOT copy-paste tags between the two — they are not interchangeable.
+# Reference the official docs for both definitions.
 
 # Setup a non-root user
 RUN groupadd --system --gid 999 nonroot \

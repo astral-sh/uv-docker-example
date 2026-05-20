@@ -1,7 +1,13 @@
 # An example of using standalone Python builds with multistage images.
 
+# Define build arguments for Debian codename and variant.
+# These are shared across FROM statements to ensure both stages stay in sync,
+# avoiding subtle runtime failures from mismatched Python environments.
+ARG DEBIAN_CODENAME=bookworm
+ARG VARIANT=slim
+
 # First, build the application in the `/app` directory
-FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:${DEBIAN_CODENAME}-${VARIANT} AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 # Omit development dependencies
@@ -26,7 +32,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked
 
 # Then, use a final image without uv
-FROM debian:bookworm-slim
+FROM debian:${DEBIAN_CODENAME}-${VARIANT}
 
 # Setup a non-root user
 RUN groupadd --system --gid 999 nonroot \
