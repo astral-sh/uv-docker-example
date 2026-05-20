@@ -2,7 +2,7 @@
 
 # Note: spec `major.minor` versions ONLY for uv Python images.
 ARG PYTHON_VERSION=3.12
-ARG DEBIAN_CODENAME=bookworm
+ARG DEBIAN_CODENAME=trixie
 ARG VARIANT=slim
 
 # First, build the application in the `/app` directory.

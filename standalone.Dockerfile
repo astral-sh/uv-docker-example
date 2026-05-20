@@ -3,7 +3,7 @@
 # Define build arguments for Debian codename and variant.
 # These are shared across FROM statements to ensure both stages stay in sync,
 # avoiding subtle runtime failures from mismatched Python environments.
-ARG DEBIAN_CODENAME=bookworm
+ARG DEBIAN_CODENAME=trixie
 ARG VARIANT=slim
 
 # First, build the application in the `/app` directory
