@@ -18,10 +18,13 @@ WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --locked --no-install-project
-COPY . /app
+    uv sync --locked --no-install-project --no-editable
+
+# Copy only what is needed to build/install the project
+COPY pyproject.toml README.md uv.lock ./
+COPY src ./src
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked
+    uv sync --locked --no-editable
 
 
 # Then, use a final image without uv
@@ -30,12 +33,12 @@ FROM python:3.12-slim-trixie
 # Python executable must be the same, e.g., using `python:3.11-slim-trixie`
 # will fail.
 
-# Setup a non-root user
-RUN groupadd --system --gid 999 nonroot \
- && useradd --system --gid 999 --uid 999 --create-home nonroot
+# Setup a non-root user with a high UID to avoid host collisions
+RUN groupadd --gid 10001 app \
+ && useradd --uid 10001 --gid 10001 --create-home --home-dir /home/app app
 
-# Copy the application from the builder
-COPY --from=builder --chown=nonroot:nonroot /app /app
+# Copy the virtual environment only (non-editable install; no source tree needed)
+COPY --from=builder --chown=10001:10001 /app/.venv /app/.venv
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
@@ -45,10 +48,10 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
 
 # Use the non-root user to run our application
-USER nonroot
+USER 10001
 
 # Use `/app` as the working directory
 WORKDIR /app
 
-# Run the FastAPI application by default
-CMD ["fastapi", "run", "--host", "0.0.0.0", "src/uv_docker_example"]
+# Run the FastAPI application by default (installed package, not source path)
+CMD ["uvicorn", "uv_docker_example:app", "--host", "0.0.0.0", "--port", "8000"]

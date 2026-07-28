@@ -1,9 +1,9 @@
 # Use a Python image with uv pre-installed
 FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
-# Setup a non-root user
-RUN groupadd --system --gid 999 nonroot \
- && useradd --system --gid 999 --uid 999 --create-home nonroot
+# Setup a non-root user with a high UID to avoid host collisions
+RUN groupadd --gid 10001 app \
+ && useradd --uid 10001 --gid 10001 --create-home --home-dir /home/app app
 
 # Install the project into `/app`
 WORKDIR /app
@@ -43,7 +43,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENTRYPOINT []
 
 # Use the non-root user to run our application
-USER nonroot
+USER 10001
 
 # Run the FastAPI application by default
 # Uses `uv run` to sync dependencies on startup, respecting UV_NO_DEV

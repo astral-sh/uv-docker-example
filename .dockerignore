@@ -1,2 +1,17 @@
 # Exclude the project virtual environment from image builds
 .venv
+
+# VCS / CI / local tooling — not needed in the image
+.git
+.github
+.gitignore
+
+# Docker and compose files
+Dockerfile
+*.Dockerfile
+compose.yml
+compose.yaml
+
+# Licenses and helper scripts (README.md is kept — hatchling needs it)
+LICENSE*
+run.sh

@@ -60,9 +60,9 @@ that comes with the base image. This image runs the application in production mo
 
 ### Dockerignore file
 
-The [`.dockerignore`](./.dockerignore) file includes an entry for the `.venv` directory to ensure the
-`.venv` is not included in image builds. Note that the `.dockerignore` file is not applied to volume
-mounts during container runs.
+The [`.dockerignore`](./.dockerignore) file excludes the `.venv` directory and other non-application
+files (git metadata, Docker/compose config, licenses, helper scripts) from image builds. Note that
+the `.dockerignore` file is not applied to volume mounts during container runs.
 
 ### Run script
 
