@@ -20,12 +20,15 @@ WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=README.md,target=README.md \
     uv sync --locked --no-install-project --no-editable
 
 # Copy only what is needed to build/install the project
-COPY pyproject.toml README.md uv.lock ./
 COPY src ./src
 RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=README.md,target=README.md \
     uv sync --locked --no-editable
 
 # Then, use a final image without uv
@@ -45,6 +48,9 @@ COPY --from=builder /python /python
 
 # Copy the virtual environment only (non-editable install; no source tree needed)
 COPY --from=builder --chown=10001:10001 /app/.venv /app/.venv
+
+# If the source tree is needed, copy it from the builder image
+# COPY --from=builder --chown=10001:10001 /app/src/ /app/src/
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"

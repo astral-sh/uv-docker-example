@@ -47,12 +47,14 @@ The [`Dockerfile`](./Dockerfile) defines the image and includes:
 
 - Installation of uv
 - Installing the project dependencies and the project separately for optimal image build caching
+- A high non-root UID (`10001`) for the default runtime user
 - Placing environment executables on the `PATH`
 - Running the web application in development mode
 
 The [`multistage.Dockerfile`](./multistage.Dockerfile) example extends the `Dockerfile` example to
-use multistage builds to reduce the final size of the image. This image runs the application in
-production mode.
+use multistage builds to reduce the final size of the image. It installs the project with
+`--no-editable`, copies only the virtual environment into the final stage, and runs the app via
+`uvicorn` against the installed package. This image runs the application in production mode.
 
 The [`standalone.Dockerfile`](./standalone.Dockerfile) example extends the `multistage.Dockerfile`
 example to use a managed Python interpreter in a multistage build instead of the system interpreter
@@ -112,4 +114,10 @@ To build the multistage image:
 
 ```console
 $ docker build . --file multistage.Dockerfile
+```
+
+To build the standalone (managed Python) image:
+
+```console
+$ docker build . --file standalone.Dockerfile
 ```
