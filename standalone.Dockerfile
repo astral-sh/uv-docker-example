@@ -38,11 +38,6 @@ FROM debian:trixie-slim
 RUN groupadd --gid 10001 app \
  && useradd --uid 10001 --gid 10001 --create-home --home-dir /home/app app
 
-# Install CA certificates for outbound TLS (e.g. HTTPS clients)
-RUN apt-get update \
- && apt-get install -y --no-install-recommends ca-certificates \
- && rm -rf /var/lib/apt/lists/*
-
 # Copy the Python version
 COPY --from=builder /python /python
 
