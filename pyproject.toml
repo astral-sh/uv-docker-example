@@ -20,3 +20,37 @@ dev = [
     "ruff>=0.6.2",
     "fastapi-cli>=0.0.5",
 ]
+
+[tool.uv]
+require-build-hashes = true
+preview-features = ["build-dependency-hashes"]
+build-constraint-dependencies = [
+    { requirement = "editables==0.6", hashes = [
+        "sha256:1163834902381c4613787951c5914800fdf155ae08848a373b8ea5006780977c",
+        "sha256:d70e4698078a1d033e7786d9c64e5be070d058a67c21417024d38a58ac20aa43",
+    ] },
+    { requirement = "hatchling==1.32.4", hashes = [
+        "sha256:08ecf7548fb48205e7f213d70c71e67b8271b7242093dc3f1da578b42c734a2c",
+        "sha256:c4468f73144c054d2aab4ef0f0378c43b9878bf07f8ffd6b79690e970d375f07",
+    ] },
+    { requirement = "packaging==26.3", hashes = [
+        "sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79",
+        "sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+    ] },
+    { requirement = "pathspec==1.1.1", hashes = [
+        "sha256:17db5ecd524104a120e173814c90367a96a98d07c45b2e10c2f3919fff91bf5a",
+        "sha256:a00ce642f577bf7f473932318056212bc4f8bfdf53128c78bbd5af0b9b20b189",
+    ] },
+    { requirement = "pluggy==1.6.0", hashes = [
+        "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3",
+        "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746",
+    ] },
+    { requirement = "tomlkit==0.15.1", hashes = [
+        "sha256:177a05aece5a8ca5266fd3c448abb47b8d352f09d477d3ca8332db4d89b24304",
+        "sha256:e25bbf38843005246210a12982776f27f99cb9be67160e14434d0c0d21ee1e97",
+    ] },
+    { requirement = "trove-classifiers==2026.9.21.13", hashes = [
+        "sha256:0a9ebc8d4e2f3e8a22848c5258033035bec17a3012ac3fea16dbaa764489eb71",
+        "sha256:8b1ff4f9c191b1040b71c37f1e445ab99732911e3cd91de52838453a854d7a17",
+    ] },
+]
