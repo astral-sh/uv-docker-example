@@ -31,8 +31,8 @@ FROM python:3.12-slim-trixie
 # will fail.
 
 # Setup a non-root user
-RUN groupadd --system --gid 999 nonroot \
- && useradd --system --gid 999 --uid 999 --create-home nonroot
+RUN groupadd --system --gid 9999 nonroot \
+ && useradd --system --gid 9999 --uid 9999 --create-home nonroot
 
 # Copy the application from the builder
 COPY --from=builder --chown=nonroot:nonroot /app /app
